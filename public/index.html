@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#090A0F">
+    <meta name="description" content="Oxlyz - Elegant Ad-Free Music Streaming">
+    <title>Oxlyz Music</title>
+
+    <!-- Google Fonts: Plus Jakarta Sans & Outfit untuk tipografi yang soft dan elegan -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome 6 Free CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Oxlyz Stylesheets -->
+    <link rel="stylesheet" href="./assets/css/variables.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/responsive.css">
+</head>
+<body>
+
+    <!-- Efek Cahaya Latar Belakang (Ambient Glow untuk memperkuat efek Glassmorphism) -->
+    <div class="ambient-bg">
+        <div class="ambient-orb orb-gold"></div>
+        <div class="ambient-orb orb-charcoal"></div>
+    </div>
+
+    <!-- Layout Utama Aplikasi -->
+    <div class="app-layout">
+
+        <!-- ==================== SIDEBAR NAVIGATION (Desktop & Tablet) ==================== -->
+        <aside class="sidebar glass-panel">
+            <div class="brand-header">
+                <div class="brand-logo-icon">
+                    <i class="fa-solid fa-compact-disc"></i>
+                </div>
+                <div class="brand-text">
+                    <h1>OXLYZ</h1>
+                    <span>PURE AUDIO</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <p class="nav-section-title">MENU UTAMA</p>
+                <ul class="nav-list">
+                    <li>
+                        <button class="nav-link active" data-target="view-home">
+                            <i class="fa-solid fa-house"></i>
+                            <span>Beranda</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-link" data-target="view-search">
+                            <i class="fa-solid fa-compass"></i>
+                            <span>Eksplorasi</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-link" data-target="view-library">
+                            <i class="fa-solid fa-layer-group"></i>
+                            <span>Pustaka</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-link" data-target="view-favorites">
+                            <i class="fa-solid fa-heart"></i>
+                            <span>Lagu Disukai</span>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-playlists">
+                <div class="sidebar-section-header">
+                    <p class="nav-section-title">PLAYLIST SAYA</p>
+                    <button id="btn-sidebar-new-playlist" class="icon-btn-sm" title="Buat Playlist Baru">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                </div>
+                <ul id="sidebar-playlist-list" class="playlist-quick-list">
+                    <!-- Daftar playlist akan dimuat secara dinamis oleh app.js -->
+                    <li class="empty-nav-item">Belum ada playlist</li>
+                </ul>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="status-badge">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span>Ad-Free Stream Active</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ==================== AREA KONTEN UTAMA ==================== -->
+        <main class="main-view">
+
+            <!-- Header Atas (Sticky Glassmorphism) -->
+            <header class="top-bar glass-panel">
+                <div class="mobile-brand">
+                    <i class="fa-solid fa-compact-disc"></i>
+                    <span>OXLYZ</span>
+                </div>
+
+                <!-- Kolom Pencarian Global -->
+                <div class="search-bar-wrapper">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input 
+                        type="text" 
+                        id="global-search-input" 
+                        placeholder="Cari judul lagu, penyanyi, atau instrumental..." 
+                        autocomplete="off"
+                    >
+                    <button id="btn-clear-search" class="icon-btn-sm hidden" title="Bersihkan">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <!-- Aksi Pengguna & Sinkronisasi Database -->
+                <div class="top-bar-actions">
+                    <button id="btn-sync-library" class="glass-btn-icon" title="Sinkronisasi Pustaka">
+                        <i class="fa-solid fa-arrows-rotate"></i>
+                    </button>
+                    <div class="user-chip glass-pill" id="user-profile-chip" title="ID Perangkat Aktif">
+                        <i class="fa-regular fa-user"></i>
+                        <span id="display-username">Listener</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Kontainer Halaman Dinamis (SPA Views) -->
+            <div class="views-wrapper" id="views-container">
+
+                <!-- 1. VIEW: BERANDA (HOME) -->
+                <section id="view-home" class="view-section active">
+                    <!-- Hero Banner Elegan -->
+                    <div class="hero-card glass-panel">
+                        <div class="hero-content">
+                            <span class="hero-badge">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i> OXLYZ EXCLUSIVE AUDIO
+                            </span>
+                            <h2>Nikmati Musik Tanpa Jeda Iklan</h2>
+                            <p>Streaming kualitas tinggi secara instan dengan pemrosesan audio murni untuk pengalaman mendengarkan terbaik.</p>
+                            <div class="hero-actions">
+                                <button class="btn-primary" id="btn-hero-explore">
+                                    <i class="fa-solid fa-play"></i> Mulai Mendengarkan
+                                </button>
+                                <button class="btn-secondary" id="btn-hero-create-playlist">
+                                    <i class="fa-solid fa-folder-plus"></i> Buat Playlist
+                                </button>
+                            </div>
+                        </div>
+                        <div class="hero-visual">
+                            <div class="vinyl-disc">
+                                <i class="fa-solid fa-record-vinyl"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Kategori Cepat (Quick Mood Chips) -->
+                    <div class="mood-chips-container">
+                        <button class="mood-chip active" data-query="Indonesian Pop Hits">Pop Indonesia</button>
+                        <button class="mood-chip" data-query="Chill Lofi Beats Instrumental">Chill & Focus</button>
+                        <button class="mood-chip" data-query="Acoustic Cafe Relaxing">Acoustic</button>
+                        <button class="mood-chip" data-query="Late Night R&B Soul">Late Night R&B</button>
+                        <button class="mood-chip" data-query="Luxury Lounge Jazz">Smooth Jazz</button>
+                        <button class="mood-chip" data-query="Cinematic Orchestra Soundtrack">Orchestra</button>
+                    </div>
+
+                    <!-- Bagian: Baru Diputar (Recently Played) -->
+                    <div class="content-block" id="home-recent-section">
+                        <div class="section-header">
+                            <div>
+                                <h3>Baru Saja Diputar</h3>
+                                <p class="section-subtitle">Lanjutkan lagu terakhir yang kamu dengarkan</p>
+                            </div>
+                            <button class="btn-text-link" data-target="view-library">
+                                Lihat Semua <i class="fa-solid fa-angle-right"></i>
+                            </button>
+                        </div>
+                        <div id="home-recent-list" class="horizontal-scroll-grid">
+                            <!-- Diisi secara dinamis dari PostgreSQL -->
+                            <div class="empty-state-box">
+                                <i class="fa-solid fa-clock-rotate-left"></i>
+                                <p>Belum ada riwayat pemutaran lagu.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bagian: Rekomendasi Pilihan -->
+                    <div class="content-block">
+                        <div class="section-header">
+                            <div>
+                                <h3 id="recommended-section-title">Rekomendasi Pilihan</h3>
+                                <p class="section-subtitle">Dikurasi sesuai suasana hari ini</p>
+                            </div>
+                            <button id="btn-refresh-recommendations" class="icon-btn-sm" title="Muat Ulang Rekomendasi">
+                                <i class="fa-solid fa-rotate"></i>
+                            </button>
+                        </div>
+                        <div id="home-recommended-list" class="track-list-container">
+                            <!-- Daftar lagu rekomendasi dimuat otomatis melalui yt-dlp -->
+                            <div class="loading-placeholder">
+                                <i class="fa-solid fa-circle-notch fa-spin"></i>
+                                <span>Memuat rekomendasi musik...</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 2. VIEW: EKSPLORASI & HASIL PENCARIAN (SEARCH) -->
+                <section id="view-search" class="view-section">
+                    <div class="section-header">
+                        <div>
+                            <h3 id="search-view-title">Eksplorasi Musik</h3>
+                            <p class="section-subtitle" id="search-view-subtitle">Ketik judul lagu atau nama penyanyi pada kolom pencarian di atas</p>
+                        </div>
+                    </div>
+
+                    <!-- Indikator Loading Pencarian -->
+                    <div id="search-loading" class="loading-box hidden">
+                        <i class="fa-solid fa-compact-disc fa-spin"></i>
+                        <p>Mencari audio terbaik dari jaringan...</p>
+                    </div>
+
+                    <!-- Daftar Hasil Pencarian yt-dlp -->
+                    <div id="search-results-container" class="track-list-container">
+                        <div class="empty-state-box">
+                            <i class="fa-solid fa-magnifying-glass-music"></i>
+                            <p>Gunakan bilah pencarian untuk menemukan jutaan musik tanpa iklan.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 3. VIEW: PUSTAKA & PLAYLIST (LIBRARY) -->
+                <section id="view-library" class="view-section">
+                    <div class="section-header">
+                        <div>
+                            <h3>Koleksi Playlist</h3>
+                            <p class="section-subtitle">Kelola daftar putar pribadimu yang tersimpan di cloud</p>
+                        </div>
+                        <button class="btn-primary btn-sm" id="btn-library-create-playlist">
+                            <i class="fa-solid fa-plus"></i> Playlist Baru
+                        </button>
+                    </div>
+
+                    <!-- Grid Daftar Playlist -->
+                    <div id="library-playlists-grid" class="playlist-cards-grid">
+                        <!-- Kartu playlist dimuat secara dinamis -->
+                    </div>
+
+                    <!-- Riwayat Pemutaran Lengkap -->
+                    <div class="content-block mt-lg">
+                        <div class="section-header">
+                            <div>
+                                <h3>Riwayat Pemutaran</h3>
+                                <p class="section-subtitle">Daftar lagu yang pernah kamu putar</p>
+                            </div>
+                        </div>
+                        <div id="library-history-list" class="track-list-container">
+                            <!-- Riwayat pemutaran lagu -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 4. VIEW: LAGU DISUKAI (FAVORITES) -->
+                <section id="view-favorites" class="view-section">
+                    <div class="playlist-banner glass-panel">
+                        <div class="banner-cover liked-cover">
+                            <i class="fa-solid fa-heart"></i>
+                        </div>
+                        <div class="banner-info">
+                            <span class="banner-tag">KOLEKSI PRIBADI</span>
+                            <h2>Lagu Disukai</h2>
+                            <p id="favorites-count-text">0 Lagu tersimpan di database</p>
+                            <div class="banner-actions">
+                                <button class="btn-primary" id="btn-play-all-favorites">
+                                    <i class="fa-solid fa-play"></i> Putar Semua
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="favorites-tracks-list" class="track-list-container">
+                        <div class="empty-state-box">
+                            <i class="fa-regular fa-heart"></i>
+                            <p>Belum ada lagu yang ditandai sebagai favorit.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 5. VIEW: DETAIL SATU PLAYLIST -->
+                <section id="view-playlist-detail" class="view-section">
+                    <div class="back-nav-row">
+                        <button class="btn-back" id="btn-back-to-library">
+                            <i class="fa-solid fa-arrow-left"></i> Kembali ke Pustaka
+                        </button>
+                    </div>
+
+                    <div class="playlist-banner glass-panel">
+                        <div class="banner-cover" id="detail-playlist-cover">
+                            <i class="fa-solid fa-music"></i>
+                        </div>
+                        <div class="banner-info">
+                            <span class="banner-tag">CUSTOM PLAYLIST</span>
+                            <h2 id="detail-playlist-name">Nama Playlist</h2>
+                            <p id="detail-playlist-desc">Deskripsi playlist</p>
+                            <span class="meta-text" id="detail-playlist-count">0 Lagu</span>
+                            <div class="banner-actions">
+                                <button class="btn-primary" id="btn-play-playlist">
+                                    <i class="fa-solid fa-play"></i> Putar Playlist
+                                </button>
+                                <button class="btn-danger-outline" id="btn-delete-playlist" title="Hapus Playlist">
+                                    <i class="fa-solid fa-trash-can"></i> Hapus
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="playlist-detail-tracks" class="track-list-container">
+                        <!-- Lagu di dalam playlist -->
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- ==================== FLOATING GLASSMORPHISM AUDIO PLAYER ==================== -->
+    <footer class="player-bar glass-player" id="main-player-bar">
+        <!-- Progress Bar Tipis di Bagian Atas Player (Khusus Mobile Mudah Disentuh) -->
+        <div class="player-top-progress" id="progress-container">
+            <div class="progress-fill" id="progress-fill"></div>
+            <input type="range" id="seek-slider" min="0" max="100" value="0" step="0.1" aria-label="Seek">
+        </div>
+
+        <div class="player-content">
+            <!-- Kiri: Info Lagu yang Sedang Diputar -->
+            <div class="player-track-info" id="player-info-trigger">
+                <div class="player-artwork-wrapper">
+                    <img src="./assets/img/default-cover.jpg" alt="Cover" id="player-thumb" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="artwork-fallback">
+                        <i class="fa-solid fa-music"></i>
+                    </div>
+                    <div class="playing-Equalizer hidden" id="player-loading-indicator">
+                        <i class="fa-solid fa-circle-notch fa-spin"></i>
+                    </div>
+                </div>
+                <div class="player-text">
+                    <h4 id="player-title">Belum Ada Musik</h4>
+                    <p id="player-artist">Pilih lagu untuk mulai memutar</p>
+                </div>
+                <div class="player-quick-actions">
+                    <button class="icon-btn" id="btn-player-like" title="Sukai Lagu">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+                    <button class="icon-btn" id="btn-player-add-playlist" title="Tambah ke Playlist">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tengah: Tombol Kontrol Pemutaran -->
+            <div class="player-controls-center">
+                <div class="control-buttons">
+                    <button class="icon-btn" id="btn-shuffle" title="Acak Antrean">
+                        <i class="fa-solid fa-shuffle"></i>
+                    </button>
+                    <button class="icon-btn" id="btn-prev" title="Lagu Sebelumnya">
+                        <i class="fa-solid fa-backward-step"></i>
+                    </button>
+                    <button class="btn-play-main" id="btn-play-pause" title="Putar / Jeda">
+                        <i class="fa-solid fa-play" id="icon-play-pause"></i>
+                    </button>
+                    <button class="icon-btn" id="btn-next" title="Lagu Selanjutnya">
+                        <i class="fa-solid fa-forward-step"></i>
+                    </button>
+                    <button class="icon-btn" id="btn-repeat" title="Ulangi Lagu">
+                        <i class="fa-solid fa-repeat"></i>
+                    </button>
+                </div>
+                <div class="player-time-row">
+                    <span id="time-current">0:00</span>
+                    <span class="time-divider">/</span>
+                    <span id="time-total">0:00</span>
+                </div>
+            </div>
+
+            <!-- Kanan: Volume, Antrean, dan Expand Layar Penuh -->
+            <div class="player-controls-right">
+                <button class="icon-btn" id="btn-toggle-queue" title="Antrean Putar">
+                    <i class="fa-solid fa-list-ul"></i>
+                </button>
+                <div class="volume-control">
+                    <button class="icon-btn" id="btn-mute" title="Suara">
+                        <i class="fa-solid fa-volume-high" id="icon-volume"></i>
+                    </button>
+                    <input type="range" id="volume-slider" min="0" max="1" step="0.02" value="1" aria-label="Volume">
+                </div>
+                <button class="icon-btn" id="btn-expand-player" title="Layar Penuh">
+                    <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== BOTTOM NAVIGATION BAR (Khusus Layar Mobile) ==================== -->
+    <nav class="bottom-nav glass-panel">
+        <button class="bottom-nav-item active" data-target="view-home">
+            <i class="fa-solid fa-house"></i>
+            <span>Beranda</span>
+        </button>
+        <button class="bottom-nav-item" data-target="view-search">
+            <i class="fa-solid fa-compass"></i>
+            <span>Eksplor</span>
+        </button>
+        <button class="bottom-nav-item" data-target="view-library">
+            <i class="fa-solid fa-layer-group"></i>
+            <span>Pustaka</span>
+        </button>
+        <button class="bottom-nav-item" data-target="view-favorites">
+            <i class="fa-solid fa-heart"></i>
+            <span>Disukai</span>
+        </button>
+    </nav>
+
+    <!-- ==================== FULLSCREEN MOBILE PLAYER OVERLAY ==================== -->
+    <div id="fullscreen-player" class="fullscreen-player-overlay hidden">
+        <div class="fs-player-header">
+            <button class="icon-btn" id="btn-close-fs-player">
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="fs-header-title">
+                <span>SEDANG DIPUTAR</span>
+                <p>Oxlyz Pure Audio Stream</p>
+            </div>
+            <button class="icon-btn" id="btn-fs-add-playlist" title="Tambah ke Playlist">
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+            </button>
+        </div>
+
+        <div class="fs-player-body">
+            <div class="fs-artwork-container">
+                <img src="./assets/img/default-cover.jpg" alt="Cover" id="fs-player-thumb" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="artwork-fallback-large">
+                    <i class="fa-solid fa-compact-disc"></i>
+                </div>
+            </div>
+
+            <div class="fs-track-meta">
+                <div class="fs-meta-text">
+                    <h2 id="fs-player-title">Belum Ada Musik</h2>
+                    <p id="fs-player-artist">Oxlyz Music</p>
+                </div>
+                <button class="icon-btn-lg" id="btn-fs-like">
+                    <i class="fa-regular fa-heart"></i>
+                </button>
+            </div>
+
+            <div class="fs-progress-area">
+                <input type="range" id="fs-seek-slider" min="0" max="100" value="0" step="0.1">
+                <div class="fs-time-labels">
+                    <span id="fs-time-current">0:00</span>
+                    <span id="fs-time-total">0:00</span>
+                </div>
+            </div>
+
+            <div class="fs-controls-row">
+                <button class="icon-btn-lg" id="btn-fs-shuffle">
+                    <i class="fa-solid fa-shuffle"></i>
+                </button>
+                <button class="icon-btn-lg" id="btn-fs-prev">
+                    <i class="fa-solid fa-backward-step"></i>
+                </button>
+                <button class="btn-play-xl" id="btn-fs-play-pause">
+                    <i class="fa-solid fa-play" id="icon-fs-play-pause"></i>
+                </button>
+                <button class="icon-btn-lg" id="btn-fs-next">
+                    <i class="fa-solid fa-forward-step"></i>
+                </button>
+                <button class="icon-btn-lg" id="btn-fs-repeat">
+                    <i class="fa-solid fa-repeat"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== DRAWER ANTREAN MUSIK (QUEUE) ==================== -->
+    <aside id="queue-drawer" class="queue-drawer glass-panel hidden">
+        <div class="drawer-header">
+            <h3><i class="fa-solid fa-list-ul"></i> Antrean Putar</h3>
+            <button class="icon-btn-sm" id="btn-close-queue">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div id="queue-list-container" class="queue-list">
+            <div class="empty-state-box">
+                <i class="fa-solid fa-music"></i>
+                <p>Antrean musik masih kosong.</p>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ==================== MODAL: BUAT PLAYLIST BARU ==================== -->
+    <div id="modal-create-playlist" class="modal-backdrop hidden">
+        <div class="modal-box glass-panel">
+            <div class="modal-header">
+                <h3>Buat Playlist Baru</h3>
+                <button class="icon-btn-sm btn-close-modal" data-modal="modal-create-playlist">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <form id="form-create-playlist" class="modal-body">
+                <div class="form-group">
+                    <label for="input-playlist-name">Nama Playlist</label>
+                    <input type="text" id="input-playlist-name" placeholder="Contoh: Midnight Drive" required maxlength="80">
+                </div>
+                <div class="form-group">
+                    <label for="input-playlist-desc">Deskripsi (Opsional)</label>
+                    <textarea id="input-playlist-desc" rows="3" placeholder="Tambahkan catatan singkat mengenai suasana playlist ini..."></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary btn-close-modal" data-modal="modal-create-playlist">Batal</button>
+                    <button type="submit" class="btn-primary">
+                        <i class="fa-solid fa-check"></i> Simpan Playlist
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL: TAMBAH LAGU KE PLAYLIST ==================== -->
+    <div id="modal-add-to-playlist" class="modal-backdrop hidden">
+        <div class="modal-box glass-panel">
+            <div class="modal-header">
+                <h3>Simpan ke Playlist</h3>
+                <button class="icon-btn-sm btn-close-modal" data-modal="modal-add-to-playlist">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-subtitle" id="add-track-target-title">Pilih playlist tujuan:</p>
+                <div id="modal-playlist-choices" class="playlist-Select-list">
+                    <!-- Pilihan playlist dimuat dinamis -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" id="btn-modal-new-playlist">
+                        <i class="fa-solid fa-plus"></i> Buat Playlist Baru
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== TOAST NOTIFICATION CONTAINER ==================== -->
+    <div id="toast-container" class="toast-wrapper"></div>
+
+    <!-- ==================== ELEMEN AUDIO UTAMA & SCRIPTS ==================== -->
+    <audio id="oxlyz-audio" preload="none" crossorigin="anonymous"></audio>
+
+    <script src="./assets/js/bridge.js"></script>
+    <script src="./assets/js/api.js"></script>
+    <script src="./assets/js/player.js"></script>
+    <script src="./assets/js/app.js"></script>
+</body>
+</html>
