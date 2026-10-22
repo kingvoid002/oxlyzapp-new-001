@@ -1,0 +1,274 @@
+/* ==========================================================================
+   OXLYZ RESPONSIVE STYLESHEET (responsive.css)
+   Mobile, Tablet, and Desktop Adaptive Layouts
+   ========================================================================== */
+
+/* ==================== 1. TABLET & MEDIUM SCREENS (<= 1024px) ==================== */
+@media screen and (max-width: 1024px) {
+    :root {
+        --sidebar-width: 230px;
+    }
+
+    .hero-card {
+        padding: 24px;
+    }
+
+    .hero-content h2 {
+        font-size: 24px;
+    }
+
+    .vinyl-disc {
+        width: 110px;
+        height: 110px;
+        font-size: 52px;
+    }
+
+    .playlist-cards-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 14px;
+    }
+}
+
+/* ==================== 2. MOBILE & SMALL TABLETS (<= 768px) ==================== */
+@media screen and (max-width: 768px) {
+    :root {
+        --topbar-height: 64px;
+        --player-height: 76px;
+        --bottom-nav-height: 64px;
+    }
+
+    /* Sembunyikan Sidebar Desktop, ubah Grid Layout menjadi 1 kolom penuh */
+    .sidebar {
+        display: none !important;
+    }
+
+    .app-layout {
+        grid-template-columns: 1fr;
+        height: calc(100vh - var(--player-height) - var(--bottom-nav-height));
+    }
+
+    /* Tampilkan Bottom Navigation Bar di HP */
+    .bottom-nav {
+        position: fixed;
+        bottom: var(--player-height);
+        left: 0;
+        right: 0;
+        height: var(--bottom-nav-height);
+        z-index: 90;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        padding: 0 8px;
+        background: rgba(14, 16, 23, 0.92);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-top: 1px solid var(--glass-border);
+    }
+
+    .bottom-nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        flex: 1;
+        height: 100%;
+        color: var(--text-secondary);
+        font-size: 10.5px;
+        font-weight: 500;
+        transition: var(--transition-fast);
+    }
+
+    .bottom-nav-item i {
+        font-size: 18px;
+    }
+
+    .bottom-nav-item.active {
+        color: var(--accent-gold);
+        font-weight: 600;
+    }
+
+    /* Penyesuaian Top Bar untuk Mobile */
+    .top-bar {
+        padding: 0 16px;
+        gap: 12px;
+    }
+
+    .mobile-brand {
+        display: flex;
+    }
+
+    .search-bar-wrapper {
+        max-width: none;
+        height: 38px;
+        padding: 0 12px;
+    }
+
+    #global-search-input {
+        font-size: 13px;
+    }
+
+    .user-chip {
+        display: none; /* Sembunyikan chip nama user di HP agar hemat tempat */
+    }
+
+    /* Penyesuaian Area Konten Utama */
+    .views-wrapper {
+        padding: 16px;
+        padding-bottom: calc(var(--bottom-nav-height) + 20px);
+    }
+
+    /* Hero Banner Mobile */
+    .hero-card {
+        flex-direction: column-reverse;
+        padding: 20px;
+        gap: 16px;
+        text-align: center;
+    }
+
+    .hero-content {
+        max-width: 100%;
+    }
+
+    .hero-actions {
+        justify-content: center;
+    }
+
+    .hero-visual {
+        padding-right: 0;
+    }
+
+    .vinyl-disc {
+        width: 90px;
+        height: 90px;
+        font-size: 42px;
+    }
+
+    /* Playlist Banner di Halaman Detail & Liked Songs */
+    .playlist-banner {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 20px;
+        gap: 16px;
+    }
+
+    .banner-cover {
+        width: 120px;
+        height: 120px;
+        font-size: 40px;
+    }
+
+    .banner-actions {
+        justify-content: center;
+    }
+
+    /* Floating Player Bar di Mobile */
+    .player-bar {
+        bottom: var(--bottom-nav-height);
+        height: var(--player-height);
+    }
+
+    .player-content {
+        grid-template-columns: 1fr auto;
+        padding: 0 12px;
+        gap: 8px;
+    }
+
+    /* Sembunyikan kontrol tengah & volume di mini player HP (dipindah ke Fullscreen Player) */
+    .player-controls-center,
+    .player-controls-right .volume-control,
+    .player-controls-right #btn-toggle-queue {
+        display: none !important;
+    }
+
+    .player-controls-right {
+        gap: 6px;
+    }
+
+    .player-track-info {
+        gap: 10px;
+        cursor: pointer;
+    }
+
+    .player-artwork-wrapper {
+        width: 44px;
+        height: 44px;
+    }
+
+    .player-quick-actions {
+        display: none; /* Tombol like di mini-player disembunyikan di HP */
+    }
+
+    /* Queue Drawer menyesuaikan layar HP */
+    .queue-drawer {
+        top: var(--topbar-height);
+        left: 12px;
+        right: 12px;
+        width: auto;
+        bottom: calc(var(--player-height) + var(--bottom-nav-height) + 12px);
+    }
+}
+
+/* ==================== 3. SMALL MOBILE PHONES (<= 480px) ==================== */
+@media screen and (max-width: 480px) {
+    .playlist-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .playlist-card {
+        padding: 12px;
+    }
+
+    .track-item {
+        grid-template-columns: 42px 1fr auto;
+        padding: 8px 10px;
+        gap: 10px;
+    }
+
+    .track-thumb-wrapper {
+        width: 42px;
+        height: 42px;
+    }
+
+    .track-duration {
+        display: none; /* Sembunyikan durasi di layar sangat kecil agar tidak sempit */
+    }
+
+    .hero-content h2 {
+        font-size: 21px;
+    }
+
+    .hero-content p {
+        font-size: 13px;
+    }
+
+    .btn-primary, .btn-secondary {
+        padding: 9px 16px;
+        font-size: 13px;
+    }
+}
+
+/* ==================== 4. ANDROID WEBVIEW & SAFE AREA ADJUSTMENTS ==================== */
+@supports (padding-top: env(safe-area-inset-top)) {
+    @media screen and (max-width: 768px) {
+        .top-bar {
+            padding-top: var(--safe-area-top);
+            height: calc(var(--topbar-height) + var(--safe-area-top));
+        }
+
+        .bottom-nav {
+            padding-bottom: var(--safe-area-bottom);
+            height: calc(var(--bottom-nav-height) + var(--safe-area-bottom));
+        }
+
+        .player-bar {
+            bottom: calc(var(--bottom-nav-height) + var(--safe-area-bottom));
+        }
+
+        .queue-drawer {
+            bottom: calc(var(--player-height) + var(--bottom-nav-height) + var(--safe-area-bottom) + 12px);
+        }
+    }
+}
