@@ -1,0 +1,91 @@
+/* ==========================================================================
+   OXLYZ DESIGN SYSTEM VARIABLES (variables.css)
+   Theme: Obsidian Black, Champagne Gold & Soft Glassmorphism
+   ========================================================================== */
+
+:root {
+    /* -------------------- 1. PALET WARNA LATAR (BACKGROUND) -------------------- */
+    --bg-primary: #090A0F;           /* Obsidian Black - Latar utama aplikasi */
+    --bg-secondary: #12141D;         /* Soft Charcoal - Latar panel & kontainer */
+    --bg-elevated: #1A1D29;          /* Elevated Surface - Kartu, modal, & fallback gambar */
+    --bg-overlay: rgba(9, 10, 15, 0.78);
+
+    /* -------------------- 2. EFEK GLASSMORPHISM -------------------- */
+    --glass-bg: rgba(255, 255, 255, 0.04);
+    --glass-bg-hover: rgba(255, 255, 255, 0.08);
+    --glass-bg-active: rgba(255, 255, 255, 0.12);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-border-highlight: rgba(212, 175, 55, 0.28);
+    --glass-blur: blur(16px);
+    --glass-blur-heavy: blur(24px);
+
+    /* -------------------- 3. WARNA AKSEN (CHAMPAGNE GOLD & PLATINUM) -------------------- */
+    --accent-gold: #D4AF37;          /* Champagne Gold utama */
+    --accent-gold-soft: #E2C799;     /* Warm Platinum / Soft Gold untuk teks & ikon aktif */
+    --accent-gold-dark: #9A7B2C;     /* Gradasi emas gelap */
+    --accent-gold-glow: rgba(212, 175, 55, 0.25);
+    --accent-gold-subtle: rgba(212, 175, 55, 0.12);
+
+    /* -------------------- 4. WARNA TIPOGRAFI (TEXT) -------------------- */
+    --text-primary: #F3F4F6;         /* Pure Alabaster - Teks judul & utama */
+    --text-secondary: #8E929F;       /* Muted Silver - Nama artis & subjudul */
+    --text-muted: #5C6070;           /* Dim Slate - Durasi, label pasif, & placeholder */
+    --text-on-accent: #090A0F;       /* Warna teks di atas tombol emas */
+
+    /* -------------------- 5. WARNA STATUS & INDIKATOR -------------------- */
+    --danger: #EF4444;
+    --danger-soft: rgba(239, 68, 68, 0.12);
+    --success: #10B981;
+    --success-soft: rgba(16, 185, 129, 0.12);
+    --warning: #F59E0B;
+
+    /* -------------------- 6. TIPOGRAFI & UKURAN FONT -------------------- */
+    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-display: 'Outfit', sans-serif;
+
+    --text-xs: 11px;
+    --text-sm: 12.5px;
+    --text-base: 14px;
+    --text-md: 16px;
+    --text-lg: 19px;
+    --text-xl: 24px;
+    --text-2xl: 28px;
+
+    /* -------------------- 7. DIMENSI TATA LETAK (LAYOUT & SIZING) -------------------- */
+    --sidebar-width: 260px;
+    --topbar-height: 72px;
+    --player-height: 88px;
+    --bottom-nav-height: 64px;
+
+    /* Dukungan Safe Area untuk layar HP berponi (Notch) & Android WebView */
+    --safe-area-top: env(safe-area-inset-top, 0px);
+    --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+
+    /* -------------------- 8. SUDUT LENGKUNG (BORDER RADIUS) -------------------- */
+    --radius-xs: 6px;
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+    --radius-xl: 28px;
+    --radius-full: 9999px;
+
+    /* -------------------- 9. BAYANGAN & ANIMASI (SHADOWS & TRANSITIONS) -------------------- */
+    --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.35);
+    --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.55);
+    --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.75);
+    --shadow-gold: 0 4px 20px rgba(212, 175, 55, 0.25);
+
+    --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-smooth: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+
+    /* -------------------- 10. LAPISAN Z-INDEX -------------------- */
+    --z-ambient: 0;
+    --z-content: 1;
+    --z-topbar: 10;
+    --z-bottom-nav: 90;
+    --z-player: 100;
+    --z-drawer: 120;
+    --z-fullscreen-player: 250;
+    --z-modal: 300;
+    --z-toast: 400;
+}
