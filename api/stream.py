@@ -59,14 +59,18 @@ def extract_audio_stream(video_id):
         ydl_opts['cookiefile'] = cookies_file
 
     # PO Token untuk bypass datacenter block (opsional tapi sangat membantu)
-    if po_token and visitor_data:
-        ydl_opts['extractor_args'] = {
-            'youtube': {
-                'po_token': [f'web+{po_token}'],
-                'player_client': ['web'],
-            }
+    # Pakai tv_embedded client — paling jarang diblokir YouTube di datacenter
+    ydl_opts['extractor_args'] = {
+        'youtube': {
+            'player_client': ['tv_embedded'],
         }
+    }
+
+    if visitor_data:
         ydl_opts['http_headers']['X-Goog-Visitor-Id'] = visitor_data
+
+    if po_token and visitor_data:
+        ydl_opts['extractor_args']['youtube']['po_token'] = [f'web+{po_token}']
 
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:

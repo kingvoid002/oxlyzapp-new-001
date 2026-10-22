@@ -49,14 +49,18 @@ def search_youtube(query, max_results=15):
     if cookies_file:
         ydl_opts['cookiefile'] = cookies_file
 
-    if po_token and visitor_data:
-        ydl_opts['extractor_args'] = {
-            'youtube': {
-                'po_token': [f'web+{po_token}'],
-                'player_client': ['web'],
-            }
+    # Pakai tv_embedded client — paling jarang diblokir YouTube di datacenter
+    ydl_opts['extractor_args'] = {
+        'youtube': {
+            'player_client': ['tv_embedded'],
         }
+    }
+
+    if visitor_data:
         ydl_opts['http_headers']['X-Goog-Visitor-Id'] = visitor_data
+
+    if po_token and visitor_data:
+        ydl_opts['extractor_args']['youtube']['po_token'] = [f'web+{po_token}']
 
     search_query = f"ytsearch{max_results}:{query}"
 
