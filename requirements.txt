@@ -1,2 +1,2 @@
-yt-dlp
-psycopg2-binary
+yt-dlp>=2024.3.10
+psycopg2-binary>=2.9.9
