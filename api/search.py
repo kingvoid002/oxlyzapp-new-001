@@ -1,8 +1,28 @@
 import os
 import json
+import base64
+import tempfile
 from http.server import BaseHTTPRequestHandler
 from urllib.parse import urlparse, parse_qs
 import yt_dlp
+
+
+def get_cookies_file():
+    """
+    Membuat file cookies sementara dari environment variable YOUTUBE_COOKIES_B64.
+    Mengembalikan path file atau None jika env var tidak ada.
+    """
+    cookies_b64 = os.environ.get("YOUTUBE_COOKIES_B64", "")
+    if not cookies_b64:
+        return None
+    try:
+        cookies_content = base64.b64decode(cookies_b64).decode("utf-8")
+        tmp = tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False)
+        tmp.write(cookies_content)
+        tmp.close()
+        return tmp.name
+    except Exception:
+        return None
 
 
 def search_youtube(query, max_results=15):
@@ -10,13 +30,33 @@ def search_youtube(query, max_results=15):
     Melakukan pencarian video/audio menggunakan yt-dlp secara aman dan cepat.
     Menggunakan opsi 'extract_flat' agar proses pencarian ringan di Vercel Serverless.
     """
+    cookies_file = get_cookies_file()
+    po_token = os.environ.get("YOUTUBE_PO_TOKEN", "")
+    visitor_data = os.environ.get("YOUTUBE_VISITOR_DATA", "")
+
     ydl_opts = {
         'format': 'bestaudio/best',
         'noplaylist': True,
         'quiet': True,
         'no_warnings': True,
-        'extract_flat': True,  # Hanya mengambil metadata daftar hasil tanpa mengunduh video
+        'extract_flat': True,
+        'http_headers': {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36',
+            'Accept-Language': 'id-ID,id;q=0.9,en-US;q=0.8,en;q=0.7',
+        },
     }
+
+    if cookies_file:
+        ydl_opts['cookiefile'] = cookies_file
+
+    if po_token and visitor_data:
+        ydl_opts['extractor_args'] = {
+            'youtube': {
+                'po_token': [f'web+{po_token}'],
+                'player_client': ['web'],
+            }
+        }
+        ydl_opts['http_headers']['X-Goog-Visitor-Id'] = visitor_data
 
     search_query = f"ytsearch{max_results}:{query}"
 
